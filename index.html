@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA IoT |   Sri Lanka</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- 1. SETTINGS (Small Sizes for Mobile) --- */
+        :root {
+            --primary: #00f2ff; /* Neon Blue */
+            --gold: #ffd700;    /* Gold */
+            --dark: #050505;    /* Black */
+            --card-bg: #121212;
+            --text-gray: #a0a0a0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--dark);
+            color: #fff;
+            font-family: 'Roboto', sans-serif; /* Sinhala support */
+            font-size: 13px; /* Base font reduced */
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Orbitron', sans-serif; letter-spacing: 0.5px; }
+        .container { padding: 0 15px; } /* Tighter padding */
+
+        /* --- 2. LOADER --- */
+        #loader {
+            position: fixed; width: 100%; height: 100%; background: #000;
+            z-index: 9999; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: 0.5s;
+        }
+        .loader-text { font-size: 1.5rem; color: var(--primary); font-weight: bold; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+
+        /* --- 3. NAVBAR (Compact) --- */
+        nav {
+            position: sticky; top: 0; width: 100%; background: rgba(5, 5, 5, 0.95);
+            border-bottom: 1px solid #222; z-index: 1000; padding: 10px 0;
+        }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; padding: 0 15px; }
+        .logo { font-size: 18px; font-weight: bold; color: #fff; }
+        .logo span { color: var(--primary); }
+        
+        /* Aura Bill Button (Small) */
+        .btn-bill-nav {
+            background: var(--gold); color: #000; padding: 5px 12px; border-radius: 4px; 
+            font-weight: bold; text-decoration: none; font-size: 11px; display: flex; align-items: center; gap: 5px;
+        }
+
+        /* --- 4. HERO SECTION (Small & Punchy) --- */
+        .hero {
+            padding: 40px 15px; text-align: center;
+            background: radial-gradient(circle, #1a1a2e 0%, #000 100%);
+        }
+        .hero h1 { font-size: 1.8rem; margin-bottom: 5px; color: #fff; line-height: 1.2; }
+        .hero p { font-size: 0.85rem; color: #ccc; margin-bottom: 20px; }
+        
+        .hero-btns { display: flex; justify-content: center; gap: 10px; }
+        .btn-hero { 
+            padding: 10px 25px; background: var(--primary); color: #000; font-weight: bold; 
+            border-radius: 50px; text-decoration: none; font-size: 11px; 
+        }
+
+        /* --- 5. PARTNERS STRIP --- */
+        .partners { background: #111; padding: 10px 0; text-align: center; border-bottom: 1px solid #222; }
+        .partners span { font-size: 10px; color: #777; letter-spacing: 1px; }
+
+        /* --- 6. VISION & MISSION (Grid) --- */
+        .section { padding: 40px 0; border-bottom: 1px solid #1a1a1a; }
+        .vm-grid { display: grid; gap: 15px; } 
+        
+        .vm-card {
+            background: var(--card-bg); padding: 20px; border-left: 3px solid var(--primary); border-radius: 5px;
+        }
+        .vm-card.mission { border-left-color: var(--gold); }
+        .vm-card h3 { font-size: 1.1rem; margin-bottom: 5px; color: #fff; }
+        .vm-card p { color: #aaa; font-size: 0.85rem; }
+
+        /* --- 7. ABOUT & STATS --- */
+        .about-text p { margin-bottom: 15px; color: #aaa; font-size: 0.9rem; }
+        
+        .stats { background: #000; padding: 30px 0; text-align: center; }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .stat-item h3 { font-size: 1.5rem; color: var(--primary); margin: 0; }
+        .stat-item p { font-size: 0.7rem; color: #555; text-transform: uppercase; }
+
+        /* --- 8. SERVICES (Compact 2-Col Grid) --- */
+        .section-title { text-align: center; margin-bottom: 20px; }
+        .section-title h2 { font-size: 1.5rem; margin-bottom: 5px; }
+        
+        .services-grid { 
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; /* 2 Columns for Mobile */
+        }
+        .service-card { 
+            background: var(--card-bg); padding: 15px; text-align: center; border: 1px solid #222; border-radius: 8px; 
+        }
+        .service-card i { font-size: 1.5rem; color: var(--primary); margin-bottom: 8px; }
+        .service-card h4 { font-size: 0.85rem; margin-bottom: 2px; color: #fff; }
+        .service-card span { font-size: 0.75rem; color: #666; display: block; } /* Sinhala text small */
+
+        /* --- 9. AURA BILL (Gold) --- */
+        .aura-bill {
+            background: linear-gradient(135deg, #1f1800, #000); padding: 50px 0; text-align: center;
+            border-top: 1px solid var(--gold); border-bottom: 1px solid var(--gold);
+        }
+        .aura-bill h2 { color: var(--gold); font-size: 1.8rem; margin-bottom: 10px; }
+        .btn-gold-big {
+            background: var(--gold); color: #000; padding: 10px 30px; border-radius: 50px; 
+            font-weight: bold; text-decoration: none; font-size: 12px; display: inline-block; margin-top: 10px;
+        }
+
+        /* --- 10. PRODUCT & WORKFLOW --- */
+        .product-section { background: #080808; text-align: center; }
+        .g1-specs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 20px; }
+        .spec { background: #111; padding: 10px; border-radius: 5px; border: 1px solid #222; }
+        .spec h5 { font-size: 1.2rem; color: var(--primary); }
+        .spec p { font-size: 0.75rem; color: #888; }
+
+        .process-step { display: flex; gap: 15px; margin-bottom: 20px; align-items: flex-start; }
+        .step-num { 
+            background: #111; border: 1px solid var(--primary); color: var(--primary); 
+            width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; 
+            border-radius: 50%; font-weight: bold; font-size: 12px; flex-shrink: 0;
+        }
+
+        /* --- 11. CONTACT & FOOTER --- */
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 12px; margin-bottom: 10px; background: #111; border: 1px solid #333; color: #fff; font-size: 12px;
+        }
+        .btn-submit { width: 100%; padding: 12px; background: var(--primary); color: #000; border: none; font-weight: bold; cursor: pointer; border-radius: 4px; }
+
+        footer { background: #000; padding: 30px 0 10px; font-size: 0.8rem; color: #555; text-align: center; }
+        .footer-links a { color: #777; text-decoration: none; margin: 0 5px; }
+
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <div class="loader-text">AURA IoT</div>
+        <div style="font-size: 10px; color: #666; margin-top: 5px;">SYSTEM LOADING...</div>
+    </div>
+
+    <nav>
+        <div class="nav-content">
+            <div class="logo">AURA <span>IoT</span></div>
+            <a href="https://share.google/hsKXTXoogh2D3jRPF" class="btn-bill-nav" target="_blank">
+                <i class="fas fa-lock"></i> BILLING
+            </a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <h1>FUTURE OF<br>INTELLIGENCE</h1>
+            <p>ශ්‍රී ලංකාවේ අංක 1 IoT සහ Robotics නවෝත්පාදන ආයතනය.<br>Powered by SGB Group & Cloud BB</p>
+            
+            <div class="hero-btns">
+                <a href="#services" class="btn-hero">SERVICES</a>
+                <a href="#contact" class="btn-hero" style="background: transparent; border: 1px solid #fff; color: #fff;">CONTACT</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="partners">
+        <span>PARENT COMPANIES: <strong>SGB GROUP</strong> | <strong>CLOUD BB</strong></span>
+    </div>
+
+    <section class="section">
+        <div class="container">
+            <div class="vm-grid">
+                <div class="vm-card">
+                    <h3><i class="fas fa-eye"></i> VISION (දැක්ම)</h3>
+                    <p>"2036 වන විට ශ්‍රී ලංකාවේ ප්‍රමුඛතම ස්මාර්ට් තාක්ෂණික ජාලය බවට පත්වීම."</p>
+                    <p style="font-size: 10px; color: #555; margin-top: 5px;">To lead SLIoT 2026.</p>
+                </div>
+                <div class="vm-card mission">
+                    <h3 style="color: var(--gold);"><i class="fas fa-bullseye"></i> MISSION (මෙහෙවර)</h3>
+                    <p>"නවීන තාක්ෂණය, ආරක්ෂාව සහ බලශක්ති කළමනාකරණය සෑම නිවසකටම සමීප කිරීම."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background: #0a0a0a;">
+        <div class="container about-text">
+            <h2 class="section-title" style="text-align: left; font-size: 1.2rem; color: var(--primary);">WHO WE ARE</h2>
+            <p>Aura IoT යනු SGB Group යටතේ ක්‍රියාත්මක වන, Grade 11 සිසුන් විසින් මෙහෙයවන විප්ලවීය ආයතනයකි. අපි Robotics, Web Systems සහ Smart Home තාක්ෂණය නිර්මාණය කරමු.</p>
+            <p><strong>Partners:</strong> Cloud BB (Data), SGB Group (Infrastructure)</p>
+        </div>
+    </section>
+
+    <div class="stats">
+        <div class="container stats-grid">
+            <div class="stat-item"><h3>15+</h3><p>Projects</p></div>
+            <div class="stat-item"><h3>24/7</h3><p>Support</p></div>
+            <div class="stat-item"><h3>100%</h3><p>Secure</p></div>
+            <div class="stat-item"><h3>2036</h3><p>Vision</p></div>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">WHY AURA? (විශේෂත්වය)</h2>
+            <div class="process-step">
+                <div class="step-num"><i class="fas fa-bolt"></i></div>
+                <div>
+                    <h4 style="font-size: 14px;">Speed (වේගය)</h4>
+                    <p style="font-size: 11px; color: #777;">ඉතා වේගවත් පද්ධති නිර්මාණය.</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="step-num"><i class="fas fa-lock"></i></div>
+                <div>
+                    <h4 style="font-size: 14px;">Security (ආරක්ෂාව)</h4>
+                    <p style="font-size: 11px; color: #777;">Cloud BB මගින් දත්ත සුරකියි.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="section" style="background: #080808;">
+        <div class="container">
+            <h2 class="section-title">SERVICES (සේවාවන්)</h2>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <i class="fas fa-home"></i>
+                    <h4>Smart Home</h4>
+                    <span>නිවාස ස්වයංක්‍රීයකරණය</span>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>Security</h4>
+                    <span>CCTV & AI ආරක්ෂාව</span>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-robot"></i>
+                    <h4>Robotics</h4>
+                    <span>රොබෝ තාක්ෂණය</span>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-globe"></i>
+                    <h4>Web Dev</h4>
+                    <span>වෙබ් අඩවි නිර්මාණය</span>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-file-invoice-dollar" style="color: var(--gold);"></i>
+                    <h4 style="color: var(--gold);">Billing</h4>
+                    <span>POS පද්ධති</span>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-wifi"></i>
+                    <h4>Networking</h4>
+                    <span>IoT ජාලකරණය</span>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h4>Apps</h4>
+                    <span>Phone Apps (Android/iOS)</span>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-cloud"></i>
+                    <h4>Cloud BB</h4>
+                    <span>දත්ත ගබඩා කිරීම</span>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-bolt"></i>
+                    <h4>Energy</h4>
+                    <span>විදුලිය ඉතිරි කිරීම</span>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-microchip"></i>
+                    <h4>PCB Design</h4>
+                    <span>පරිපථ නිර්මාණය</span>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-headset"></i>
+                    <h4>Support</h4>
+                    <span>24/7 තාක්ෂණික සහාය</span>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h4>Training</h4>
+                    <span>තාක්ෂණික අධ්‍යාපනය</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="aura-bill">
+        <div class="container">
+            <h2>AURA BILL SYSTEM</h2>
+            <p style="color: #ccc; font-size: 11px; max-width: 300px; margin: 0 auto;">
+                ව්‍යාපාර සඳහාම සැකසූ හොඳම Billing මෘදුකාංගය. (Inventory, Sales, Customers).
+            </p>
+            <a href="https://share.google/hsKXTXoogh2D3jRPF" class="btn-gold-big" target="_blank">
+                <i class="fas fa-sign-in-alt"></i> LOGIN NOW
+            </a>
+        </div>
+    </section>
+
+    <section class="product-section section">
+        <div class="container">
+            <span style="background: var(--primary); color: #000; padding: 3px 8px; border-radius: 4px; font-weight: bold; font-size: 9px;">FLAGSHIP PRODUCT</span>
+            <h2 style="font-size: 1.8rem; margin: 10px 0;">AURA G1</h2>
+            <p style="color: #bbb; font-size: 11px;">2026 සඳහා නිර්මාණය කළ ස්මාර්ට් හබ් එක.</p>
+            
+            <div class="g1-specs">
+                <div class="spec"><h5>Voice</h5><p>කටහඬ පාලනය</p></div>
+                <div class="spec"><h5>AI</h5><p>කෘතිම බුද්ධිය</p></div>
+                <div class="spec"><h5>Secure</h5><p>උසස් ආරක්ෂාව</p></div>
+                <div class="spec"><h5>Power</h5><p>අඩු විදුලි වැය</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">WORKFLOW (ක්‍රියාවලිය)</h2>
+            <div class="process-step">
+                <div class="step-num">1</div>
+                <div><h4>Plan</h4><p style="font-size: 11px; color: #777;">ඔබේ අවශ්‍යතාවය හඳුනා ගැනීම.</p></div>
+            </div>
+            <div class="process-step">
+                <div class="step-num">2</div>
+                <div><h4>Build</h4><p style="font-size: 11px; color: #777;">පද්ධතිය නිර්මාණය කිරීම.</p></div>
+            </div>
+            <div class="process-step">
+                <div class="step-num">3</div>
+                <div><h4>Deploy</h4><p style="font-size: 11px; color: #777;">ස්ථාපනය සහ පරීක්ෂාව.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background: #111; text-align: center;">
+        <div class="container">
+            <i class="fas fa-quote-left" style="font-size: 1.5rem; color: var(--primary); margin-bottom: 10px;"></i>
+            <p style="font-style: italic; color: #ddd; font-size: 11px;">
+                "තාක්ෂණය යනු අනාගතයයි. Aura IoT සමඟ අපි හෙට දවස ගොඩනගමු."
+            </p>
+            <h4 style="color: var(--primary); font-size: 12px; margin-top: 10px;">- sakila dineth FOUNDER, AURA IOT -</h4>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">FAQ (ගැටළු)</h2>
+            <div style="background: #111; padding: 10px; border-radius: 5px; margin-bottom: 5px;">
+                <h4 style="font-size: 12px;">Warranty තිබේද?</h4>
+                <p style="font-size: 10px; color: #777;">ඔව්, වසරක වගකීමක් ඇත.</p>
+            </div>
+            <div style="background: #111; padding: 10px; border-radius: 5px;">
+                <h4 style="font-size: 12px;">දුරකථනයෙන් පාලනය කළ හැකිද?</h4>
+                <p style="font-size: 10px; color: #777;">ඔව්, අපගේ Mobile App එක මගින්.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section" style="background: #080808;">
+        <div class="container">
+            <h2 class="section-title">CONTACT US</h2>
+            
+            <div style="text-align: center; margin-bottom: 20px; font-size: 12px;">
+                <p style="margin-bottom: 5px;"><i class="fas fa-phone text-primary"></i> 011 330 4820</p>
+                <p><i class="fas fa-map-marker-alt text-primary"></i> ibbagamuwa , kurunegala ,Sri Lanka</p>
+            </div>
+
+            <form class="form-group">
+                <input type="text" placeholder="Your Name (නම)">
+                <input type="text" placeholder="Mobile Number (දුරකථන අංකය)">
+                <textarea rows="4" placeholder="Message (පණිවිඩය)"></textarea>
+                <button type="submit" class="btn-submit">SEND MESSAGE</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#home">Home</a> | <a href="#services">Services</a> | <a href="#contact">Contact</a>
+            </div>
+            <p style="margin-top: 10px;">&copy; 2026 Aura IoT. SGB Group Subsidiary.</p>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 500);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
